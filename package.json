@@ -6,6 +6,7 @@
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "source": "src/index.ts",
+  "repository": "jviide/smort",
   "scripts": {
     "test": "TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' mocha --require ts-node/register test/**/*.test.ts",
     "typecheck": "tsc --noEmit --skipLibCheck",
