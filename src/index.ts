@@ -15,7 +15,7 @@ export const numeric = (a: number | bigint, b: number | bigint): CmpResult => {
     // Only NaN is not equal with itself, so a === a ensures that a is not a NaN
     // (use a === a instead of isNaN(a), because TypeScript forbids isNaN to take BigInts).
     // So at this point `a > b || isNaN(b)` must be true. Let's consider NaN smaller
-    // than any other number, just to keep comparisons consistent.
+    // than any other number, just to keep comparisons transitive.
     return 1;
   } else if (b === b) {
     // At this point `isNaN(a) && !isNaN(b)` must be true.
