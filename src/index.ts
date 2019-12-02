@@ -6,7 +6,7 @@ export const numeric = (a: number | bigint, b: number | bigint): CmpResult => {
   if (a == b) {
     // Use == instead of ===, because e.g. 2 !== BigInt(2) but 2 == BigInt(2).
     // In this case no implicit type casting should take place, as == compares
-    // Numbers and BigInts by their "mathematical value".    
+    // Numbers and BigInts by their "mathematical value" (see references).
     return 0;
   } else if (a < b) {
     // < also compares Numbers and BigInts by their mathematical value.
@@ -24,6 +24,15 @@ export const numeric = (a: number | bigint, b: number | bigint): CmpResult => {
     // Both a and b are NaN. Let's consider them equal.
     return 0;
   }
+  // References:
+  //  * https://tc39.es/ecma262/#sec-mathematical-operations 
+  //    for the definition of "mathematical value"
+  //  * https://tc39.es/ecma262/#sec-abstract-relational-comparison
+  //    for the definition of the < operation.
+  //  * https://tc39.es/ecma262/#sec-abstract-equality-comparison
+  //    for the definition of the == operation.
+  //  * https://tc39.es/ecma262/#sec-strict-equality-comparison
+  //    for the definition of the === operation.
 };
 export const numbers = numeric as Cmp<number>;
 
