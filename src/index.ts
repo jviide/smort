@@ -4,16 +4,24 @@ export type Cmp<T> = (a: T, b: T) => CmpResult;
 
 export const numeric = (a: number | bigint, b: number | bigint): CmpResult => {
   if (a == b) {
+    // Use == instead of ===, because e.g. 2 !== BigInt(2) but 2 == BigInt(2).
+    // In this case no implicit type casting should take place, as == compares
+    // Numbers and BigInts by their "mathematical value".    
     return 0;
   } else if (a < b) {
+    // < also compares Numbers and BigInts by their mathematical value.
     return -1;
   } else if (a === a) {
-    // a > b || isNaN(b)
+    // Only NaN is not equal with itself, so a === a ensures that a is not a NaN
+    // (use a === a instead of isNaN(a), because TypeScript forbids isNaN to take BigInts).
+    // So at this point `a > b || isNaN(b)` must be true. Let's consider NaN smaller
+    // than any other number, just to keep comparisons consistent.
     return 1;
   } else if (b === b) {
-    // isNaN(a)
+    // At this point `isNaN(a) && !isNaN(b)` must be true.
     return -1;
   } else {
+    // Both a and b are NaN. Let's consider them equal.
     return 0;
   }
 };
