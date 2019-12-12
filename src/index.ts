@@ -44,3 +44,36 @@ export const booleans = (bigints as unknown) as Cmp<boolean>;
 
 export const nulls = (_a: null, _b: null): CmpResult => 0;
 export const undefineds = (nulls as unknown) as Cmp<undefined>;
+
+type T0 = [];
+type T1 = [any];
+type T2 = [any, any];
+type T3 = [any, any, any];
+type T4 = [any, any, any, any];
+type T5 = [any, any, any, any, any];
+type T6 = [any, any, any, any, any, any];
+type T7 = [any, any, any, any, any, any, any];
+type T8 = [any, any, any, any, any, any, any, any];
+
+type Mapped<T extends any[]> = {
+  [K in keyof T]: Cmp<T[K]>;
+};
+
+export function tuples<T extends T0>(items: Mapped<T>): Cmp<T>;
+export function tuples<T extends T1>(items: Mapped<T>): Cmp<T>;
+export function tuples<T extends T2>(items: Mapped<T>): Cmp<T>;
+export function tuples<T extends T3>(items: Mapped<T>): Cmp<T>;
+export function tuples<T extends T4>(items: Mapped<T>): Cmp<T>;
+export function tuples<T extends T5>(items: Mapped<T>): Cmp<T>;
+export function tuples<T extends T6>(items: Mapped<T>): Cmp<T>;
+export function tuples<T extends T7>(items: Mapped<T>): Cmp<T>;
+export function tuples<T extends T8>(items: Mapped<T>): Cmp<T>;
+export function tuples<T extends unknown[]>(items: Mapped<T>): Cmp<T> {
+  return (a, b) => {
+    let result: CmpResult = 0;
+    for (let i = 0; !result && i < items.length; i++) {
+      result = items[i](a[i], b[i]);
+    }
+    return result;
+  };
+}
